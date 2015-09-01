@@ -12,7 +12,17 @@ with questions for class!
     in your calculation.  (We will return to this question again after
     we cover some computer architecture.)
     
+    Each of the 8 nodes has 12 cores (96 cores there).  From this site:
+    http://ark.intel.com/products/83352/Intel-Xeon-Processor-E5-2620-v3-15M-Cache-2_40-GHz
+    Each core has 12 threads and 4 memory channels, allowing for 48 flop per clock on a single core, or 4608 flop/clock on all 96 cores.
+    
+    Each Xeon Phi board has 60 cores, for 900 total.  Each core has 16 memory channels, allowing for 16 flop/clock on a single core, or 14400 on all 900.  Between the Xeon Phi boards and the 8 nodes, this is 19008 flop/clock (both numbers can be added because the clock rates are the same).  Multiplying by the 1.053 GHz clock rate gives 20.0 teraflop/s.
+    
 2.  What is the approximate theoretical peak flop rate for your own machine?
+i5-2540m processor:
+http://ark.intel.com/products/50072/Intel-Core-i5-2540M-Processor-3M-Cache-up-to-3_30-GHz
+<2 cores>*<4 threads> = 8 flop/clock.
+Multiplying by clock freq. (3.3 GHz) gives 26.4 gigaflop/s
 
 3.  Suppose there are t tasks that can be executed in a pipeline
     with p stages.  What is the speedup over serial execution of the
@@ -30,6 +40,13 @@ with questions for class!
     What is the minimum serial time between starting to compile and having
     a compiled application?  What is the minimum parallel time given
     an arbitrary number of processors?
+    
+    GCC compile from t=0 to t=1h
+    OpenMPI compile from t=1h to t=1.5h
+    OpenBLAS from t=1h to t=1.25hr
+    LAPACK from t=1.25h to 1.75h
+    application compile from 1.75h to 2.25h
+    ==>2.25 h
 
 5.  Clone the membench repository from GitHub:
 

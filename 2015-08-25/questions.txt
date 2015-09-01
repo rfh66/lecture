@@ -18,6 +18,13 @@ In practice, this took X time.  This includes
 Consider the following questions:
 
 1. What is a simple model that would predict this time?
+k1*M+k2*N,
+where M is max # of people per row
+N is # rows
 2. What about a simple model to predict time for one person to count?
+k1*T, where T is total # of people
 3. How big should the class be before the parallel method takes less time?
-
+Assuming number of people in row is constant, T=M*N:
+k1*M+k2*N=k1*T=k1*M*N
+k1*M=(k1*M-k2) N
+N=(k1 M)/(k1 M - k2)

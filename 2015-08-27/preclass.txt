@@ -7,6 +7,8 @@
     according to Amdahl's law for up to 128 cores.  If you know how,
     you should use a script to produce this plot, with both the serial
     fraction and the maximum number of cores as parameters.
+    
+    1/(<serial frac>+<paralell frac>/N)=1/(.1+.9/N).  Can't embed plot; speedup goes to 9.34 @ 128 cores
 
 2.  Suppose a particular program can be partitioned into perfectly
     independent tasks, each of which takes time tau.  Tasks are
@@ -24,4 +26,15 @@
     in your calculation.  (We will return to this question again after
     we cover some computer architecture.)
     
+    Each of the 8 nodes has 12 cores (96 cores there).  From this site:
+    http://ark.intel.com/products/83352/Intel-Xeon-Processor-E5-2620-v3-15M-Cache-2_40-GHz
+    Each core has 12 threads and 4 memory channels, allowing for 48 flop per clock on a single core, or 4608 flop/clock on all 96 cores.
+    
+    Each Xeon Phi board has 60 cores, for 900 total.  Each core has 16 memory channels, allowing for 16 flop/clock on a single core, or 14400 on all 900.  Between the Xeon Phi boards and the 8 nodes, this is 19008 flop/clock (both numbers can be added because the clock rates are the same).  Multiplying by the 1.053 GHz clock rate gives 20.0 teraflop/s.
+    
 5.  What is the approximate theoretical peak flop rate for your own machine?
+
+i5-2540m processor:
+http://ark.intel.com/products/50072/Intel-Core-i5-2540M-Processor-3M-Cache-up-to-3_30-GHz
+<2 cores>*<4 threads> = 8 flop/clock.
+Multiplying by clock freq. (3.3 GHz) gives 26.4 gigaflop/s

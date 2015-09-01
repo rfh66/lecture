@@ -85,4 +85,99 @@ Multiplying by clock freq. (3.3 GHz) gives 26.4 gigaflop/s
     I recommend doing this on the class cluster using the Intel
     compiler.  To do this, run "module load cs5220" and run (e.g.)
 
-        icc -o centroid centroid.c
+Time for each method (s)
+0.037720
+0.069840
+0.0649
+
+// ConsoleApplication2.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <fstream>
+#include <random>
+#include <time.h>
+#include <chrono>
+#define N 10000000
+using namespace std;
+using namespace std::chrono;
+
+struct numpair
+{
+	double x; double y;
+};
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	// initialize random values
+	
+	numpair *pairs=new numpair[N]();
+	double *xs=new double[N];
+	double *ys=new double[N];
+
+		for (int i = 0; i < N; i++)
+		{
+			pairs[i].x = static_cast <double> (rand()) / static_cast <double> (RAND_MAX);
+			pairs[i].y = static_cast <double> (rand()) / static_cast <double> (RAND_MAX);
+			xs[i] = pairs[i].x;
+			ys[i] = pairs[i].y;
+		}
+	// method 1
+	clock_t start = clock();
+	double xtot = 0;
+	double ytot = 0;
+	for (int j = 0; j < 100; j++)
+	{
+		xtot = 0;
+		ytot = 0;
+		for (int i = 0; i < N; i++)
+		{
+			xtot += pairs[i].x;
+			ytot += pairs[i].y;
+		}
+	}
+	xtot /= N;
+	ytot /= N;
+	printf("%f\t%f\n", xtot, ytot);
+	printf("%f\n", float(clock() - start) / (100*CLOCKS_PER_SEC));
+	// method 2
+	start = clock();
+	for (int j = 0; j < 100; j++)
+	{
+		xtot = 0;
+		ytot = 0;
+		for (int i = 0; i < N; i++)
+		{
+			xtot += pairs[i].x;
+		}
+		for (int i = 0; i < N; i++)
+		{
+			ytot += pairs[i].y;
+		}
+	}
+	xtot /= N;
+	ytot /= N;
+	printf("%f\t%f\n", xtot, ytot);
+	printf("%f\n", float(clock() - start) / (100*CLOCKS_PER_SEC));
+	// method 3
+	start = clock();
+	for (int j = 0; j < 100; j++)
+	{
+		xtot = 0;
+		ytot = 0;
+		for (int i = 0; i < N; i++)
+		{
+			xtot += xs[i];
+		}
+		for (int i = 0; i < N; i++)
+		{
+			ytot += ys[i];
+		}
+	}
+	xtot /= N;
+	ytot /= N;
+	printf("%f\t%f\n", xtot, ytot);
+	printf("%f\n", float(clock() - start) / (100*CLOCKS_PER_SEC));
+}
+
+
